@@ -54,9 +54,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = delete_button):
     with st.chat_message("AI"):
         msg_holder = st.empty()
         msg_holder.markdown("Searching...")
-        hyde_query = logic.get_hyde_query(input)
-        documents = logic.retrieve(hyde_query)
-        text = "\n---\n".join(documents)
+        text = logic.get_source_text(input)
         ss["retrived_text"] = text
 
         with st.sidebar:

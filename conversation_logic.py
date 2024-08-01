@@ -34,7 +34,7 @@ def get_hyde_query(orig_input):
 
     language = ("English" if K.lang == "EN" else "Japanese")
     query = K.HYDE_PROMPT.format(language=language) + orig_input
-    print(query)
+
     result = model.generate_content(query)
 
     hyde_query = result.text
@@ -42,23 +42,22 @@ def get_hyde_query(orig_input):
     return hyde_query
 
 
-def retrieve(hyde_query):
-
-    print('embedding 入ります')
+def get_query_vector(hyde_query):
     result = genai.embed_content(
             model="models/text-embedding-004",
             content=hyde_query,
             task_type="retrieval_query",
     )
-    print('embedding 終わりました')
-
     # result['embedding']は１次元配列なので[]でさらに括って２次元配列に
     query_vector = np.array([result['embedding']]).astype('float32')
+    print('embedding 終わりました')
+    return query_vector
 
+
+def retrieve_docs(query_vector):
     distances, indices = index.search(query_vector, K.K)
 
     documents = []
-
     print("検索結果:")
     for i in range(K.K):
         print(f"類似度ランク {i+1}:")
@@ -71,6 +70,12 @@ def retrieve(hyde_query):
 
     return documents
 
+def get_source_text(orig_input):
+    hyde_query = get_hyde_query(orig_input)
+    query_vector = get_query_vector(hyde_query)
+    documents = retrieve_docs(query_vector)
+    text = "\n---\n".join(documents)
+    return text
 
 
 def get_stream(inputText, docs):
