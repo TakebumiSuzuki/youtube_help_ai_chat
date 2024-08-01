@@ -62,7 +62,19 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = delete_button):
         with st.sidebar:
             st.subheader(K.SIDEBAR_SUBTITLE(K.lang))
             if "retrived_text" in ss:
-                st.markdown(ss["retrived_text"])
+                # st.markdown(ss["retrived_text"])
+                source_holder = st.empty()
+                full_response = ""
+                char_count = 0
+                random_int = random.randint(50, 70)
+                for char in ss["retrived_text"]:
+                    full_response += char
+                    char_count += 1
+                    if char_count == random_int:
+                        time.sleep(0.02)
+                        source_holder.markdown(full_response + "_")
+                        char_count = 0
+                        random_int = random.randint(50, 70)
 
         msg_holder.markdown("Reading...")
         full_response = ""
