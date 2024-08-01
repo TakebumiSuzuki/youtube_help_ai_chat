@@ -8,6 +8,7 @@ import numpy as np
 import logging
 from typing import List, Dict, Any
 
+
 # ロギングの設定
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -48,6 +49,7 @@ except Exception as e:
     logger.error(f"JSONファイルの読み込み中に不明の問題が発生しました: {e}")
     raise
 
+
 def get_hyde_query(orig_input: str) -> str:
     try:
         genai.configure(api_key=GOOGLE_API_KEY)
@@ -64,6 +66,7 @@ def get_hyde_query(orig_input: str) -> str:
         logger.error(f"HYDEクエリの生成中にエラーが発生しました: {e}")
         raise
 
+
 def get_query_vector(hyde_query: str) -> np.ndarray:
     try:
         result = genai.embed_content(
@@ -78,6 +81,7 @@ def get_query_vector(hyde_query: str) -> np.ndarray:
         logger.error(f"クエリベクトルの生成中にエラーが発生しました: {e}")
         raise
 
+
 def retrieve_docs(query_vector: np.ndarray) -> List[str]:
     try:
         distances, indices = index.search(query_vector, K.K)
@@ -91,6 +95,7 @@ def retrieve_docs(query_vector: np.ndarray) -> List[str]:
         logger.error(f"類似文書の検索中にエラーが発生しました: {e}")
         raise
 
+
 def retrieve_text(orig_input: str) -> str:
     try:
         hyde_query = get_hyde_query(orig_input)
@@ -102,6 +107,7 @@ def retrieve_text(orig_input: str) -> str:
     except Exception as e:
         logger.error(f"テキスト取得プロセス中にエラーが発生しました: {e}")
         raise
+
 
 def get_stream(inputText: str, docs: str):
     try:
@@ -123,6 +129,7 @@ def get_stream(inputText: str, docs: str):
     except Exception as e:
         logger.error(f"ストリーム生成中にエラーが発生しました: {e}")
         raise
+
 
 def error_handling(e: Exception):
     logger.error(f"エラーが発生しました: {e}")
