@@ -12,9 +12,9 @@ st.set_page_config(
 
 ss = st.session_state
 
-if "store" not in ss:
-    ss["store"] = []
-message_list = ss["store"]
+if "conversation" not in ss:
+    ss["conversation"] = []
+message_list = ss["conversation"]
 
 st.markdown(K.CSS, unsafe_allow_html=True)
 
@@ -29,52 +29,40 @@ if message_list != []:
             # if message["role"] == "AI":
             #     st.button('docs履歴')
 
-    if "show_button" in ss and ss["show_button"] == True:
+    if "show_clear" in ss and ss["show_clear"] == True:
         clear_button = st.button(K.CLEAR_BUTTON(K.lang))
         if clear_button == True:
-            ss["store"] = []
+            ss["conversation"] = []
             ss["retrived_text"] = ""
             clear_button = False
             st.rerun()
 
-def delete_button():
-    ss["show_button"] = False
+def hide_clear():
+    ss["show_clear"] = False
 
 # Accept user input
-if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = delete_button):
+if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear):
 
     #ユーザーからのインプットをそのままUIに表示する
     with st.chat_message("user"):
         st.markdown(input)
     #ユーザーからのインプットをsession_stateに記録
-    ss["store"].append({"role" : "user", "content" : input})
+    ss["conversation"].append({"role" : "user", "content" : input})
 
 
     #AIからの返答をストリームにて取得、表示する
     with st.chat_message("AI"):
         msg_holder = st.empty()
         msg_holder.markdown("Searching...")
-        text = logic.get_source_text(input)
+        text = logic.retrieve_text(input)
         ss["retrived_text"] = text
 
         with st.sidebar:
             st.subheader(K.SIDEBAR_SUBTITLE(K.lang))
             if "retrived_text" in ss:
-                # st.markdown(ss["retrived_text"])
-                source_holder = st.empty()
-                full_response = ""
-                char_count = 0
-                random_int = random.randint(50, 70)
-                for char in ss["retrived_text"]:
-                    full_response += char
-                    char_count += 1
-                    if char_count == random_int:
-                        time.sleep(0.02)
-                        source_holder.markdown(full_response + "_")
-                        char_count = 0
-                        random_int = random.randint(50, 70)
+                st.markdown(ss["retrived_text"])
 
-        msg_holder.markdown("Reading...")
+        msg_holder.markdown("Reading source documents...")
         full_response = ""
         stream = logic.get_stream(input, text)
         for chunk in stream:
@@ -95,8 +83,8 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = delete_button):
         msg_holder.markdown(full_response)
 
     #AIからの返答をsession_stateに記録
-    ss["store"].append({"role" : "AI", "content" : full_response})
-    ss["show_button"] = True
+    ss["conversation"].append({"role" : "AI", "content" : full_response})
+    ss["show_clear"] = True
     st.rerun()
 
 
