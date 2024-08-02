@@ -8,17 +8,20 @@ import numpy as np
 import logging
 from typing import List, Dict, Any
 
-
-# ロギングの設定
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 # .env ファイルを読み込む
 load_dotenv()
 GOOGLE_API_KEY = os.getenv(K.GOOGLE_API_KEY)
 if not GOOGLE_API_KEY:
     logger.error("GOOGLE_API_KEY が設定されていません。")
-    raise EnvironmentError("GOOGLE_API_KEY が設定されていません。")
+    raise
 
 FAISS_PATH = "./knowledge_data/JA_07_28_2024.faiss"
 JSON_PATH = "./knowledge_data/JA_07_28_2024.json"
@@ -38,7 +41,7 @@ except Exception as e:
 try:
     with open(JSON_PATH, 'r', encoding='utf-8') as file:
         data = json.load(file)
-    logger.info("JSONデータを正常に読み込みました。")
+    logger.info("Knowledgeのデータ(JSON)を正常に読み込みました。")
 except FileNotFoundError:
     logger.error(f"JSONファイルが見つかりません: {JSON_PATH}")
     raise
@@ -130,8 +133,3 @@ def get_stream(inputText: str, docs: str):
         logger.error(f"ストリーム生成中にエラーが発生しました: {e}")
         raise
 
-
-def error_handling(e: Exception):
-    logger.error(f"エラーが発生しました: {e}")
-    # ここでエラーに応じた適切な処理を行う
-    # 例: ユーザーへの通知、再試行ロジック、エラーレポートの送信など

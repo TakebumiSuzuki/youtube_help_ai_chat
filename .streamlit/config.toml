@@ -17,3 +17,6 @@ secondaryBackgroundColor = "#EEF2FF"
 
 # Color used for almost all text.
 textColor = "#31333F"
+
+[browser]
+gatherUsageStats = false
