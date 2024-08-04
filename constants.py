@@ -39,19 +39,22 @@ def SIDEBAR_SUBTITLE(l):
         '[ 情報ソース ]'
     )
 
+# OpenAIを使用した場合の設定項目
+OPENAI_API_KEY = 'OPENAI_API_KEY'
+GPT_4O = 'gpt-4o'
+GPT_4O_MINI = 'gpt-4o-mini'
+OPEN_AI_EMBEDDING_MODEL = 'text-embedding-3-large'
 
+# Geminiを使用した場合の設定項目
 GOOGLE_API_KEY = 'GOOGLE_API_KEY'
 GEMINI_MODEL_NAME = 'models/gemini-1.5-pro-latest'
 EMBEDDING_MODEL_NAME = 'models/text-embedding-004'
 
-LANGSMITH_API_KEY = 'LANGSMITH_API_KEY'
+# データファイルのパス設定
+FAISS_PATH = "./knowledge_data/JA_08_02_2024.faiss"
+JSON_PATH = "./knowledge_data/JA_08_02_2024.json"
 
-EN_VECSTORE = 'en_0508_faiss.db'
-# JA_VECSTORE = 'data_ja.chroma_db'
-SEARCH_TYPE = 'similarity_score_threshold'
 K = 4
-FETCH_K = 15
-THRESH = 0.30
 
 
 CSS = """
