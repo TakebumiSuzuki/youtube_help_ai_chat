@@ -4,11 +4,12 @@ import json
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 import numpy as np
+import time
 import faiss
 # import google.generativeai as genai
 from openai import OpenAI
 import logging
-import time
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -18,17 +19,19 @@ handler.setLevel(logging.DEBUG)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+FAISS_PATH = K.FAISS_PATH
+JSON_PATH = K.JSON_PATH
+
 load_dotenv()
 OPENAI_API_KEY = os.getenv(K.OPENAI_API_KEY)
+if not OPENAI_API_KEY:
+    logger.error("OPENAI_API_KEYが.envファイル内に見つかりません")
+    raise
 
 # GOOGLE_API_KEY = os.getenv(K.GOOGLE_API_KEY)
 # if not GOOGLE_API_KEY:
 #     logger.error("GOOGLE_API_KEYが.envファイル内に見つかりません")
 #     raise
-
-FAISS_PATH = K.FAISS_PATH
-JSON_PATH = K.JSON_PATH
-
 
 # FAISSインデックスの読み込み
 try:
@@ -67,7 +70,7 @@ def get_hyde_query(orig_input: str) -> str:
 
         client = OpenAI(api_key=OPENAI_API_KEY)
         response = client.chat.completions.create(
-            model= K.GPT_4O,
+            model= K.GPT_4O_MINI,
             messages=[
                 {"role": "system", "content": system_query},
                 {"role": "user", "content": orig_input},
@@ -103,7 +106,7 @@ def get_query_vector(hyde_query: str) -> np.ndarray:
         query_vector = np.array([response.data[0].embedding]).astype('float32')
 
         # result = genai.embed_content(
-        #     model=K.EMBEDDING_MODEL_NAME,
+        #     model=K.GEMINI_EMBEDDING_MODEL,
         #     content=hyde_query,
         #     task_type="retrieval_query",
         # )

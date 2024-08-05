@@ -48,7 +48,7 @@ OPEN_AI_EMBEDDING_MODEL = 'text-embedding-3-large'
 # Geminiを使用した場合の設定項目
 GOOGLE_API_KEY = 'GOOGLE_API_KEY'
 GEMINI_MODEL_NAME = 'models/gemini-1.5-pro-latest'
-EMBEDDING_MODEL_NAME = 'models/text-embedding-004'
+GEMINI_EMBEDDING_MODEL = 'models/text-embedding-004' # 英語のみの対応
 
 # データファイルのパス設定
 FAISS_PATH = "./knowledge_data/JA_08_02_2024.faiss"

@@ -1,8 +1,8 @@
 import constants as K
 import streamlit as st
 import conversation_logic as logic
-import time
-import random
+import time # Gemini使用でストリームする場合のみ使う
+import random # Gemini使用でストリームする場合のみ使う
 import uuid
 
 st.set_page_config(
@@ -54,7 +54,6 @@ def hide_clear_button():
 
 # Accept user input
 if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button):
-    print('＊＊＊＊app.py内のif input が起動しました＊＊＊＊')
     #ユーザーからのインプットをそのままUIに表示する
     with st.chat_message("user"):
         st.markdown(input)
@@ -92,13 +91,12 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
                 #         random_int = random.randint(5, 10)
 
                 #OpenAIの場合
-                if chunk.choices[0].delta.content is None:
-                    print('Noneのチャンクです')
+                if chunk.choices[0].delta.content is None: # ストリームの最後で必ず一回Noneが送られるようなのでその処理
                     continue
                 for word in chunk.choices[0].delta.content:
                     full_response += word
                     msg_holder.markdown(full_response + "_")
-                    time.sleep(0.002)
+                    # time.sleep(0.002)
 
             except Exception as e:
                 print('AIからの回答を記述中に不明のエラーが発生しました: f{e}')
