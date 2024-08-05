@@ -96,7 +96,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
                 for word in chunk.choices[0].delta.content:
                     full_response += word
                     msg_holder.markdown(full_response + "_")
-                    # time.sleep(0.002)
+                    # time sleepは、1chunkあたり1から数文字程度なのでopenaiの場合必要ない
 
             except Exception as e:
                 print('AIからの回答を記述中に不明のエラーが発生しました: f{e}')

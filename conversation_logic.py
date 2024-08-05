@@ -70,7 +70,7 @@ def get_hyde_query(orig_input: str) -> str:
 
         client = OpenAI(api_key=OPENAI_API_KEY)
         response = client.chat.completions.create(
-            model= K.GPT_4O_MINI,
+            model= K.GPT_4O,
             messages=[
                 {"role": "system", "content": system_query},
                 {"role": "user", "content": orig_input},
