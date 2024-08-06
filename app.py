@@ -64,7 +64,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
     with st.chat_message("AI"):
         msg_holder = st.empty()
         msg_holder.markdown("Searching...")
-        text = logic.retrieve_text(input)
+        text = logic.retrieve_process(input)
         ss["current_docs"] = text
 
         with st.sidebar:

@@ -41,20 +41,23 @@ def SIDEBAR_SUBTITLE(l):
 
 # OpenAIを使用した場合の設定項目
 OPENAI_API_KEY = 'OPENAI_API_KEY'
-GPT_4O = 'gpt-4o'
-GPT_4O_MINI = 'gpt-4o-mini'
-OPEN_AI_EMBEDDING_MODEL = 'text-embedding-3-large'
+OPENAI_HYDE_MODEL = 'gpt-4o-mini'
+OPENAI_EMBEDDING_MODEL = 'text-embedding-3-large'
+OPENAI_QA_MODEL = 'gpt-4o-mini'
+
 
 # Geminiを使用した場合の設定項目
 GOOGLE_API_KEY = 'GOOGLE_API_KEY'
-GEMINI_MODEL_NAME = 'models/gemini-1.5-pro-latest'
-GEMINI_EMBEDDING_MODEL = 'models/text-embedding-004' # 英語のみの対応
+# GEMINI_HYDE_MODEL = 'models/gemini-1.5-flash'
+# GEMINI_EMBEDDING_MODEL = 'models/text-embedding-004' # 英語のみの対応
+# GEMINI_QA_MODEL = 'models/gemini-1.5-pro-latest'
+GEMINI_RERANK_MODEL = 'gemini-1.5-pro-exp-0801'
 
 # データファイルのパス設定
-FAISS_PATH = "./knowledge_data/JA_08_02_2024.faiss"
-JSON_PATH = "./knowledge_data/JA_08_02_2024.json"
+FAISS_PATH = "./knowledge_data/JA_08_02_2024_V2.faiss"
+JSON_PATH = "./knowledge_data/JA_08_02_2024_V2.json"
 
-K = 4
+K = 6
 
 
 CSS = """
@@ -62,7 +65,7 @@ CSS = """
         header {visibility: hidden;}
         div[class^='block-container'] { padding-top: 2rem; }
     </style>
-    """
+"""
 
 
 REPHRASED_PROMPT = """
@@ -116,6 +119,16 @@ You are a YouTube customer support agent. Using the context provided below, answ
 ###
 Here is the context:
 {context}
+"""
+
+RERANK_PROMPT = """
+**指示**: 以下の文書チャンクリストの中から、ユーザーの質問、または関心ごとに対して最も関連性が高い、つまり質問に対する答えが含まれている可能性が最も高い文書チャンクを3つ選び、可能性が高い順になるように、その選んだ文書チャンクのインデックスをlistに入れて答えを返してください。
+**質問または関心ごと**: {orig_input}
+**文書チャンクリスト**:
+{text}
+
+あなたが生成する答え：
+response_schemaとして与えられた通りのJSON形式で答えてください
 """
 
 

@@ -2,13 +2,14 @@ import constants as K
 import os
 import json
 from dotenv import load_dotenv
-from typing import List, Dict, Any
+from typing import List
 import numpy as np
 import time
 import faiss
-# import google.generativeai as genai
+import google.generativeai as genai
 from openai import OpenAI
 import logging
+import typing_extensions as typing
 
 
 logger = logging.getLogger(__name__)
@@ -28,10 +29,10 @@ if not OPENAI_API_KEY:
     logger.error("OPENAI_API_KEYが.envファイル内に見つかりません")
     raise
 
-# GOOGLE_API_KEY = os.getenv(K.GOOGLE_API_KEY)
-# if not GOOGLE_API_KEY:
-#     logger.error("GOOGLE_API_KEYが.envファイル内に見つかりません")
-#     raise
+GOOGLE_API_KEY = os.getenv(K.GOOGLE_API_KEY)
+if not GOOGLE_API_KEY:
+    logger.error("GOOGLE_API_KEYが.envファイル内に見つかりません")
+    raise
 
 # FAISSインデックスの読み込み
 try:
@@ -70,7 +71,7 @@ def get_hyde_query(orig_input: str) -> str:
 
         client = OpenAI(api_key=OPENAI_API_KEY)
         response = client.chat.completions.create(
-            model= K.GPT_4O,
+            model= K.OPENAI_HYDE_MODEL,
             messages=[
                 {"role": "system", "content": system_query},
                 {"role": "user", "content": orig_input},
@@ -83,11 +84,12 @@ def get_hyde_query(orig_input: str) -> str:
         print(f"処理時間: {elapsed_time:.3f}秒")  # 経過時間を表示
 
         # genai.configure(api_key=GOOGLE_API_KEY)
-        # model = genai.GenerativeModel(K.GEMINI_MODEL_NAME)
+        # model = genai.GenerativeModel(K.GEMINI_HYDE_MODEL)
         # result = model.generate_content(system_query + orig_input)
         # hyde_query = result.text
 
-        logger.info(f"HYDEクエリの作成が終了しました: {hyde_query}")
+        logger.info(f"HYDEクエリの作成が終了しました:")
+        logger.info(f"{hyde_query}")
 
         return hyde_query
 
@@ -101,7 +103,7 @@ def get_query_vector(hyde_query: str) -> np.ndarray:
         client = OpenAI(api_key=OPENAI_API_KEY)
         response = client.embeddings.create(
             input=hyde_query,
-            model=K.OPEN_AI_EMBEDDING_MODEL
+            model=K.OPENAI_EMBEDDING_MODEL
         )
         query_vector = np.array([response.data[0].embedding]).astype('float32')
 
@@ -139,17 +141,63 @@ def retrieve_docs(query_vector: np.ndarray) -> List[str]:
         raise
 
 
-def retrieve_text(orig_input: str) -> str:
+def rerank_docs(orig_input, documents):
+    text = ""
+    for i, doc in enumerate(documents):
+        text += f"index:{i} - {doc} \n"
+
+    print('------------------')
+    print(text)
+    try:
+        prompt = K.RERANK_PROMPT.format(orig_input=orig_input, text=text)
+
+        start_time = time.time()
+        class Indices(typing.TypedDict):
+            top3_index: list[int]
+
+        model = genai.GenerativeModel(
+            K.GEMINI_RERANK_MODEL,
+            generation_config={
+                "response_mime_type": "application/json",
+                "response_schema" : Indices
+        })
+
+        response = model.generate_content(
+            prompt,
+            generation_config={
+                "temperature": 0.2,
+                "top_p": 0.85,
+                "top_k": 7,
+                "max_output_tokens": 100,
+            },
+        )
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print(f"RERANK_処理時間: {elapsed_time:.3f}秒")
+
+        print(response.text)
+        response_obj = json.loads(response.text)
+        return [documents[i] for i in response_obj['top3_index']]
+
+    except Exception as e:
+        logger.error(f"RERANKING中にエラーが発生しましたが、そのままQAに進みます: {e}")
+        return documents[:4]
+
+
+def retrieve_process(orig_input: str) -> str:
     try:
         hyde_query = get_hyde_query(orig_input)
         query_vector = get_query_vector(hyde_query)
         documents = retrieve_docs(query_vector)
-        text = "\n---\n".join(documents)
-        return text
+        documents = rerank_docs(orig_input, documents)
+        final_docs = "\n---\n".join(documents)
+        return final_docs
 
     except Exception as e:
         logger.error(f"テキスト取得プロセス中にエラーが発生しました: {e}")
         raise
+
+
 
 
 def get_stream(inputText: str, docs: str):
@@ -164,7 +212,7 @@ def get_stream(inputText: str, docs: str):
 
         client = OpenAI(api_key=OPENAI_API_KEY)
         stream = client.chat.completions.create(
-            model= K.GPT_4O,
+            model= K.OPENAI_QA_MODEL,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": inputText},
@@ -172,24 +220,25 @@ def get_stream(inputText: str, docs: str):
             stream=True
         )
 
-        end_time = time.time()  # 処理終了時刻を取得
-        elapsed_time = end_time - start_time  # 経過時間を計算
-        print(f"処理時間: {elapsed_time:.3f}秒")  # 経過時間を表示
-
-        # model = genai.GenerativeModel(K.GEMINI_MODEL_NAME)
+        # model = genai.GenerativeModel(K.GEMINI_QA_MODEL)
         # message = [{
         #     'role':'user',
         #     'parts': [prompt + inputText]
         # }]
         # stream = model.generate_content(message, stream=True)
 
-
-        logger.info("ストリーム生成を開始しました。")
+        end_time = time.time()  # 処理終了時刻を取得
+        elapsed_time = end_time - start_time  # 経過時間を計算
+        print(f"FINAL_QA_処理時間: {elapsed_time:.3f}秒")  # 経過時間を表示
 
         return stream
 
     except Exception as e:
         logger.error(f"ストリーム生成中にエラーが発生しました: {e}")
         raise
+
+
+
+
 
 
