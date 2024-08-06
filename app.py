@@ -64,8 +64,8 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
     with st.chat_message("AI"):
         msg_holder = st.empty()
         msg_holder.markdown("Searching...")
-        text = logic.retrieve_process(input)
-        ss["current_docs"] = text
+        sources = logic.retrieve_process(input)
+        ss["current_docs"] = sources
 
         with st.sidebar:
             st.subheader(K.SIDEBAR_SUBTITLE(K.lang))
@@ -75,7 +75,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
 
         msg_holder.markdown("Reading source documents...")
         full_response = ""
-        stream = logic.get_stream(input, text)
+        stream = logic.get_stream(input, sources)
         for chunk in stream:
             try:
                 # Geminiの場合
@@ -108,7 +108,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
     #AIからの返答をsession_stateに記録
     generated_key = uuid.uuid4()
     ss["conversation"].append({"role" : "AI", "content" : full_response, "key" : generated_key})
-    ss["docs_store"][generated_key] = text
+    ss["docs_store"][generated_key] = sources
     ss["show_clear_button"] = True
     st.rerun()
 
