@@ -71,8 +71,8 @@ def get_databases(language):
         return loaded_faiss['ja'], loaded_json['ja']
     elif language == 'Spanish':
         return loaded_faiss['es'], loaded_json['es']
-    elif language == 'Korean':
-        return loaded_faiss['ko'], loaded_json['ko']
+    elif language == 'Indonesian':
+        return loaded_faiss['id'], loaded_json['id']
     else:
         return loaded_faiss['en'], loaded_json['en']
 
@@ -129,13 +129,13 @@ def split_last_brackets(input_string):
     return prompt_part, bracket_part
 
 
-def determin_language(text: str) -> str:
+def extract_language(text: str) -> str:
     if 'japanese' in text.lower():
         return 'Japanese'
     elif 'spanish' in text.lower():
         return 'Spanish'
-    elif 'korian' in text.lower():
-        return 'Korian'
+    elif 'indonesian' in text.lower():
+        return 'Indonesian'
     else:
         return 'English'
 
@@ -192,7 +192,7 @@ def handle_retrieval(orig_input: str) -> str:
     try:
         hyde_query = get_hyde_query(orig_input)
         hyde_query, bracket_part = split_last_brackets(hyde_query)
-        language = determin_language(bracket_part)
+        language = extract_language(bracket_part)
         query_vector = get_query_vector(hyde_query)
         documents = retrieve_docs(query_vector, language)
         # documents = rerank_docs(orig_input, documents)

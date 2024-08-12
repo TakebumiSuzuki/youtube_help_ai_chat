@@ -6,7 +6,6 @@ import time # Gemini使用でストリームする場合のみ使う
 import random # Gemini使用でストリームする場合のみ使う
 
 MAX_USER_INPUT = 200
-LANGUAGE = 'language'
 
 ss = st.session_state
 

@@ -60,7 +60,7 @@ Here is the context:
 {context}
 """
 
-
+# Also, add the sentence or part of a sentence from the given context that best supports the answer to your generated question, to the end of your answer.
 
 # RERANK_PROMPT = """
 # **指示**: 以下の文書チャンクリストの中から、ユーザーの質問、または関心ごとに対して最も関連性が高い、つまり質問に対する答えが含まれている可能性が最も高い文書チャンクを3つ選び、可能性が高い順になるように、その選んだ文書チャンクのインデックスをlistに入れて答えを返してください。
@@ -73,7 +73,7 @@ Here is the context:
 # """
 
 
-
+# 一番最初に作ったプロンプト。hyde以前。
 # REPHRASED_PROMPT = """
 # As an AI language model trained to improve query clarity, your task is to transform a YouTube creator's query into three rephrased sentences. Each sentence should enhance the original query's clarity and precision while preserving the creator's intent related to YouTube topics.
 
