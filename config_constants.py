@@ -1,8 +1,8 @@
 # OpenAIを使用した場合の設定項目
 OPENAI_API_KEY = 'OPENAI_API_KEY'
-OPENAI_HYDE_MODEL = 'gpt-4o-mini'
+OPENAI_HYDE_MODEL = 'gpt-4o-2024-08-06'
 OPENAI_EMBEDDING_MODEL = 'text-embedding-3-large'
-OPENAI_QA_MODEL = 'gpt-4o-mini'
+OPENAI_QA_MODEL = 'gpt-4o-2024-08-06'
 
 # Geminiを使用した場合の設定項目
 # GEMINI_API_KEY = 'GEMINI_API_KEY'

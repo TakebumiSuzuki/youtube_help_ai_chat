@@ -102,6 +102,7 @@ def get_hyde_query(orig_input: str) -> str:
         # hyde_query = result.text
 
         logger.info(f"HYDEクエリの作成が終了しました:")
+        logger.info(CC.OPENAI_HYDE_MODEL)
         logger.info(f"{hyde_query}")
         end_time = time.time()  # 処理終了時刻を取得
         elapsed_time = end_time - start_time  # 経過時間を計算
@@ -210,7 +211,7 @@ def get_stream(inputText: str, docs: str, language: str):
         qa_template = PC.QA_PROMPT
         qa_base_prompt = qa_template.format(language=language, context=docs)
         system_prompt = f"{qa_base_prompt} + 'Here's the question: '"
-
+        print(qa_base_prompt)
         start_time = time.time()
 
         client = OpenAI(api_key=OPENAI_API_KEY)
@@ -229,7 +230,7 @@ def get_stream(inputText: str, docs: str, language: str):
         #     'parts': [prompt + inputText]
         # }]
         # stream = model.generate_content(message, stream=True)
-
+        logger.info(CC.OPENAI_QA_MODEL)
         end_time = time.time()  # 処理終了時刻を取得
         elapsed_time = end_time - start_time  # 経過時間を計算
         print(f"FINAL_QA_処理時間: {elapsed_time:.3f}秒")  # 経過時間を表示
