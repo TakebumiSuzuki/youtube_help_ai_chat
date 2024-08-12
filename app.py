@@ -1,15 +1,12 @@
-import constants as K
-import streamlit as st
+import ui_constants as UC
 import conversation_logic as logic
+import streamlit as st
+import uuid
 import time # Gemini使用でストリームする場合のみ使う
 import random # Gemini使用でストリームする場合のみ使う
-import uuid
 
-st.set_page_config(
-     page_title = K.TAB_TITLE(K.lang),
-     layout = "wide",
-     initial_sidebar_state = "expanded"
-)
+MAX_USER_INPUT = 200
+LANGUAGE = 'language'
 
 ss = st.session_state
 
@@ -26,11 +23,20 @@ if "current_docs" not in ss:
 if "show_clear_button" not in ss:
     ss["show_clear_button"] = False
 
-# unsafe_allow_html=True を使用して、HTMLとCSSの直接挿入を許可
-st.markdown(K.CSS, unsafe_allow_html=True)
+if "language" not in ss:
+    ss["language"] = 'Japanese'
 
-st.title(K.TITLE(K.lang))
-st.write(K.SUBTITLE(K.lang))
+st.set_page_config(
+     page_title = UC.TAB_TITLE(ss["language"]),
+     layout = "wide",
+     initial_sidebar_state = "expanded"
+)
+
+# unsafe_allow_html=True を使用して、HTMLとCSSの直接挿入を許可
+st.markdown(UC.CSS, unsafe_allow_html=True)
+
+st.title(UC.TITLE(ss["language"]))
+st.write(UC.SUBTITLE(ss["language"]))
 
 # Display chat messages from history on app rerun
 if message_list != []:
@@ -42,7 +48,7 @@ if message_list != []:
                     ss["current_docs"] = ss["docs_store"][message["key"]]
 
     if ss["show_clear_button"] == True:
-        clear_button = st.button(K.CLEAR_BUTTON(K.lang))
+        clear_button = st.button(UC.CLEAR_BUTTON(ss["language"]))
         if clear_button == True:
             ss["conversation"] = []
             ss["current_docs"] = ""
@@ -53,7 +59,10 @@ def hide_clear_button():
     ss["show_clear_button"] = False
 
 # Accept user input
-if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button):
+if input := st.chat_input(UC.INPUT_HOLDER(ss["language"]), on_submit = hide_clear_button):
+    # インプとの文字数のモデレート
+    if len(input) > MAX_USER_INPUT:
+        input = input[:MAX_USER_INPUT]
     #ユーザーからのインプットをそのままUIに表示する
     with st.chat_message("user"):
         st.markdown(input)
@@ -64,18 +73,21 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
     with st.chat_message("AI"):
         msg_holder = st.empty()
         msg_holder.markdown("Searching...")
-        sources = logic.retrieve_process(input)
+
+        sources, language = logic.handle_retrieval(input)
         ss["current_docs"] = sources
+        ss["language"] = language
+        print(ss['language'])
 
         with st.sidebar:
-            st.subheader(K.SIDEBAR_SUBTITLE(K.lang))
+            st.subheader(UC.SIDEBAR_SUBTITLE(ss["language"]))
 
             if "current_docs" in ss:
                 st.markdown(ss["current_docs"])
 
         msg_holder.markdown("Reading source documents...")
         full_response = ""
-        stream = logic.get_stream(input, sources)
+        stream = logic.get_stream(input, sources, ss['language'])
         for chunk in stream:
             try:
                 # Geminiの場合
@@ -114,7 +126,7 @@ if input := st.chat_input(K.INPUT_HOLDER(K.lang), on_submit = hide_clear_button)
 
 else:
     with st.sidebar:
-        st.subheader(K.SIDEBAR_SUBTITLE(K.lang))
+        st.subheader(UC.SIDEBAR_SUBTITLE(ss["language"]))
         if "current_docs" in ss:
             st.markdown(ss["current_docs"])
 
