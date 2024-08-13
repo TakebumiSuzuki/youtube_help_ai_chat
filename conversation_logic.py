@@ -91,7 +91,8 @@ def get_hyde_query(orig_input: str) -> str:
             messages=[
                 {"role": "system", "content": system_query},
                 {"role": "user", "content": orig_input},
-                ]
+                ],
+            temperature=0.8
         )
         hyde_query = response.choices[0].message.content
 
@@ -221,7 +222,8 @@ def get_stream(inputText: str, docs: str, language: str):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": inputText},
             ],
-            stream=True
+            stream=True,
+            temperature=0.8
         )
 
         # model = genai.GenerativeModel(CC.GEMINI_QA_MODEL)

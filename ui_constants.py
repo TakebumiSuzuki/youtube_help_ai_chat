@@ -44,10 +44,10 @@ def INPUT_HOLDER(l):
 
 
 def CLEAR_BUTTON(l):
-    return 'CLEAR ALL CONVERSATION'
+    return 'CLEAR'
 
 def DOC_HISTORY(l):
-    return 'DOCUMENT HISTORY'
+    return 'DOC HISTORY'
 
 def SIDEBAR_SUBTITLE(l):
     if l == 'Japanse':
