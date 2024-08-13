@@ -19,15 +19,15 @@ def TITLE(l):
 
 def SUBTITLE(l):
     if l == 'Japanse':
-        return '⚠YouTubeクリエーターサポートに書いている情報のみ答えられます。AIの情報を鵜呑みにせずに、左カラムの情報ソースのリンクを必ず確認して下さい。'
+        return '⚠️ YouTubeクリエーターサポートに書いている情報のみ答えられます。AIの情報を鵜呑みにせずに、左カラムの情報ソースのリンクを必ず確認して下さい。'
     elif l == 'Spanish':
-        return '⚠Solo puedo responder con información escrita en el Soporte para Creadores de YouTube. No tome la información de IA al pie de la letra y siempre verifique los enlaces de las fuentes de información en la columna izquierda.'
+        return '⚠️ Solo puedo responder con información escrita en el Soporte para Creadores de YouTube. No tome la información de IA al pie de la letra y siempre verifique los enlaces de las fuentes de información en la columna izquierda.'
     elif l == 'Indonesian':
-        return '⚠Saya hanya dapat menjawab berdasarkan informasi yang tertulis di Dukungan Kreator YouTube. Jangan langsung mempercayai informasi AI dan selalu periksa tautan sumber informasi di kolom sebelah kiri.'
+        return '⚠️ Saya hanya dapat menjawab berdasarkan informasi yang tertulis di Dukungan Kreator YouTube. Jangan langsung mempercayai informasi AI dan selalu periksa tautan sumber informasi di kolom sebelah kiri.'
     elif l == 'Korean':
-        return '⚠YouTube 크리에이터 지원에 작성된 정보만 답변할 수 있습니다. AI 정보를 그대로 받아들이지 마시고 왼쪽 열의 정보 출처 링크를 반드시 확인해 주세요.'
+        return '⚠️ YouTube 크리에이터 지원에 작성된 정보만 답변할 수 있습니다. AI 정보를 그대로 받아들이지 마시고 왼쪽 열의 정보 출처 링크를 반드시 확인해 주세요.'
     else:
-        return '⚠I can only answer based on information written in YouTube Creator Support. Please do not take AI information at face value and always check the information source links in the left column.'
+        return '⚠️ I can only answer based on information written in YouTube Creator Support. Please do not take AI information at face value and always check the information source links in the left column.'
 
 
 def INPUT_HOLDER(l):
