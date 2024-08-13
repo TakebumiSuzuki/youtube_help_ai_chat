@@ -23,7 +23,7 @@ if "show_clear_button" not in ss:
     ss["show_clear_button"] = False
 
 if "language" not in ss:
-    ss["language"] = 'Japanese'
+    ss["language"] = 'English'
 
 st.set_page_config(
      page_title = UC.TAB_TITLE(ss["language"]),
@@ -43,7 +43,7 @@ if message_list != []:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
             if message["role"] == "AI":
-                if st.button('docs履歴', key = message["key"]):
+                if st.button(UC.DOC_HISTORY(ss["language"]), key = message["key"]):
                     ss["current_docs"] = ss["docs_store"][message["key"]]
 
     if ss["show_clear_button"] == True:

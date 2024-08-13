@@ -8,37 +8,55 @@ CSS = """
 TAB_ICON = None
 
 def TAB_TITLE(l):
-    return (
-        'YPP AI Assistant' if l == "English" else
-        'YPP AI アシスタント'
-    )
+    return 'YPP AI Assistant'
+
 
 def TITLE(l):
-    return (
-        'Partner Manager AI Support' if l == "English" else
-        'パートナーマネージャー AI サポート'
-        )
+    if l == 'Japanse':
+        return 'パートナーマネージャー AI サポート'
+    else:
+        return 'Partner Manager AI Support'
 
 def SUBTITLE(l):
-    return (
-        '☝ I can only answer information written in the Creator Support, which is public info. Please make sure to check the link to the information source in the left column and do not blindly accept AI-generated information.' if l == "English" else
-        '☝ YouTubeクリエーターサポートに書いている情報のみ答えられます。AIの情報を鵜呑みにせずに、左カラムの情報ソースのリンクを必ず確認して下さい。'
-    )
+    if l == 'Japanse':
+        return 'YouTubeクリエーターサポートに書いている情報のみ答えられます。AIの情報を鵜呑みにせずに、左カラムの情報ソースのリンクを必ず確認して下さい。'
+    elif l == 'Spanish':
+        return 'Solo puedo responder con información escrita en el Soporte para Creadores de YouTube. No tome la información de IA al pie de la letra y siempre verifique los enlaces de las fuentes de información en la columna izquierda.'
+    elif l == 'Indonesian':
+        return 'Saya hanya dapat menjawab berdasarkan informasi yang tertulis di Dukungan Kreator YouTube. Jangan langsung mempercayai informasi AI dan selalu periksa tautan sumber informasi di kolom sebelah kiri.'
+    elif l == 'Korean':
+        return 'YouTube 크리에이터 지원에 작성된 정보만 답변할 수 있습니다. AI 정보를 그대로 받아들이지 마시고 왼쪽 열의 정보 출처 링크를 반드시 확인해 주세요.'
+    else:
+        return 'I can only answer based on information written in YouTube Creator Support. Please do not take AI information at face value and always check the information source links in the left column.'
+
 
 def INPUT_HOLDER(l):
-    return (
-        'Ask me a question about YouTube!  I will not remember previous conversations.' if l == "English" else
-        'YouTubeに関する質問をして下さい。過去の会話は記憶しないことにご留意ください。'
-    )
+    if l == 'Japanse':
+        return 'YouTubeに関する質問をして下さい。過去の会話は記憶しないことにご留意ください。'
+    elif l == 'Spanish':
+        return 'Por favor, haga una pregunta sobre YouTube. Tenga en cuenta que las conversaciones anteriores no se recuerdan.'
+    elif l == 'Indonesian':
+        return 'Silakan ajukan pertanyaan tentang YouTube. Harap diingat bahwa percakapan sebelumnya tidak diingat.'
+    elif l == 'Korian':
+        return 'YouTube에 대한 질문을 해 주세요. 이전 대화는 기억하지 않는다는 점을 유의해 주세요.'
+    else:
+        return 'Please ask a question about YouTube. Please note that previous conversations are not remembered.'
+
 
 def CLEAR_BUTTON(l):
-    return (
-        'Clear' if l == "English" else
-        '会話をクリア'
-    )
+    return 'CLEAR'
+
+def DOC_HISTORY(l):
+    return 'DOC HISTORY'
 
 def SIDEBAR_SUBTITLE(l):
-    return (
-        '[ Resources ]' if l == "English" else
-        '[ 情報ソース ]'
-    )
+    if l == 'Japanse':
+        return '[情報ソース]'
+    elif l == 'Spanish':
+        return '[FUENTES]'
+    elif l == 'Indonesian':
+        return '[SUMBER]'
+    elif l == 'Korean':
+        return '[출처]'
+    else:
+        return '[SOURCES]'
