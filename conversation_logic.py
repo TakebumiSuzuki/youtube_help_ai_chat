@@ -73,6 +73,8 @@ def get_databases(language):
         return loaded_faiss['es'], loaded_json['es']
     elif language == 'Indonesian':
         return loaded_faiss['id'], loaded_json['id']
+    elif language == 'Vietnamese':
+        return loaded_faiss['vi'], loaded_json['vi']
     else:
         return loaded_faiss['en'], loaded_json['en']
 

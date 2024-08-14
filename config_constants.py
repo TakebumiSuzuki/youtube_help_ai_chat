@@ -19,6 +19,7 @@ FAISS_FILES = {
     'ja': "./knowledge_data/JA_08_02_2024_V3.faiss",
     'es': "./knowledge_data/ES_08_07_2024.faiss",
     'id': "./knowledge_data/ID_08_12_2024.faiss",
+    'vi': "./knowledge_data/VI_08_14_2024.faiss",
     'en': "./knowledge_data/EN_08_07_2024.faiss"
 }
 
@@ -26,6 +27,7 @@ JSON_FILES = {
     'ja': "./knowledge_data/JA_08_02_2024_V3.json",
     'es': "./knowledge_data/ES_08_07_2024.json",
     'id': "./knowledge_data/ID_08_12_2024.json",
+    'vi': "./knowledge_data/VI_08_14_2024.json",
     'en': "./knowledge_data/EN_08_07_2024.json"
 }
 
