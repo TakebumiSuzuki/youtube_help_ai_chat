@@ -39,7 +39,7 @@ def INPUT_HOLDER(l):
         return 'Por favor, haga una pregunta sobre YouTube. Tenga en cuenta que las conversaciones anteriores no se recuerdan.'
     elif l == 'Indonesian':
         return 'Silakan ajukan pertanyaan tentang YouTube. Harap diingat bahwa percakapan sebelumnya tidak diingat.'
-    elif l == 'Korian':
+    elif l == 'Korean':
         return 'YouTube에 대한 질문을 해 주세요. 이전 대화는 기억하지 않는다는 점을 유의해 주세요.'
     elif l == 'Vietnamese':
         return 'YouTube liên quan đến câu hỏi. Xin lưu ý rằng cuộc trò chuyện trước đó sẽ không được ghi nhớ.'

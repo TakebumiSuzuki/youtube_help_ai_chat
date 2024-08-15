@@ -33,7 +33,7 @@ Instructions:
 Do NOT provide a direct answer to the question. Instead, generate two sentences from the user's original question following the guidelines below:
 - **First Sentence**: Reformulate the question by formalizing any colloquial language or abbreviations in the same language as the user's original question, while maintaining the original intent related to YouTube as clearly as possible.
 - **Second Sentence**: Offer relevant contextual information or explanations based on your knowledge of YouTube's features and functionalities in the same language as the user's original question.
-- **Final Step**: At the very end of your response, include the language used in the input enclosed in square brackets in English, such as [English], [Spanish], [Indonesian], [Vietnamese] or [Japanese].
+- **Final Step**: At the very end of your response, include the language used in the input enclosed in square brackets in English, such as [English], [Spanish], [Indonesian], [Vietnamese], [Korean] or [Japanese].
 
 ###
 Notes:
