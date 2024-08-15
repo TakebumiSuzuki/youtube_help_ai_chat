@@ -139,6 +139,8 @@ def extract_language(text: str) -> str:
         return 'Spanish'
     elif 'indonesian' in text.lower():
         return 'Indonesian'
+    elif 'vietnamese' in text.lower():
+        return 'Vietnamese'
     else:
         return 'English'
 
