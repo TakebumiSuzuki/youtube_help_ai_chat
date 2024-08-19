@@ -77,6 +77,8 @@ def get_databases(language):
         return loaded_faiss['ko'], loaded_json['ko']
     elif language == 'Vietnamese':
         return loaded_faiss['vi'], loaded_json['vi']
+    elif language == 'Thai':
+        return loaded_faiss['th'], loaded_json['th']
     else:
         return loaded_faiss['en'], loaded_json['en']
 
@@ -145,6 +147,8 @@ def extract_language(text: str) -> str:
         return 'Korean'
     elif 'vietnamese' in text.lower():
         return 'Vietnamese'
+    elif 'thai' in text.lower():
+        return 'Thai'
     else:
         return 'English'
 

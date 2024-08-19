@@ -28,6 +28,8 @@ def SUBTITLE(l):
         return '⚠️ YouTube 크리에이터 지원에 작성된 정보만 답변할 수 있습니다. AI 정보를 그대로 받아들이지 마시고 왼쪽 열의 정보 출처 링크를 반드시 확인해 주세요.'
     elif l == 'Vietnamese':
         return '⚠️ Chỉ có thể trả lời thông tin được viết trên Hỗ trợ người sáng tạo của YouTube. Đừng tin hoàn toàn vào thông tin từ AI, hãy luôn kiểm tra các liên kết nguồn thông tin trong cột bên trái.'
+    elif l == 'Thai':
+        return 'ฉันสามารถตอบได้ตามข้อมูลที่เขียนไว้ใน YouTube Creator Support เท่านั้น กรุณาอย่ารับข้อมูลจาก AI อย่างผิวเผิน และโปรดตรวจสอบลิงก์แหล่งข้อมูลที่อยู่ในคอลัมน์ด้านซ้ายเสมอ'
     else:
         return '⚠️ I can only answer based on information written in YouTube Creator Support. Please do not take AI information at face value and always check the information source links in the left column.'
 
@@ -43,6 +45,8 @@ def INPUT_HOLDER(l):
         return 'YouTube에 대한 질문을 해 주세요. 이전 대화는 기억하지 않는다는 점을 유의해 주세요.'
     elif l == 'Vietnamese':
         return 'YouTube liên quan đến câu hỏi. Xin lưu ý rằng cuộc trò chuyện trước đó sẽ không được ghi nhớ.'
+    elif l == 'Thai':
+        return 'กรุณาถามคำถามเกี่ยวกับ YouTube และโปรดทราบว่าฉันจะไม่จดจำการสนทนาในอดีต'
     else:
         return 'Please ask a question about YouTube. Please note that previous conversations are not remembered.'
 
@@ -64,5 +68,7 @@ def SIDEBAR_SUBTITLE(l):
         return '[출처]'
     elif l == 'Vietnamese':
         return '[NGUỒN THÔNG TIN]'
+    elif l == 'Thai':
+        return '[แหล่งข้อมูล]'
     else:
         return '[SOURCES]'
