@@ -6,12 +6,15 @@ import time # Gemini使用でストリームする場合のみ使う
 import random # Gemini使用でストリームする場合のみ使う
 
 MAX_USER_INPUT = 200
+LANG = 'language'
+CONV = 'conversation'
+
 
 ss = st.session_state
 
-if "conversation" not in ss:
-    ss["conversation"] = []
-message_list = ss["conversation"]
+if CONV not in ss:
+    ss[CONV] = []
+message_list = ss[CONV]
 
 if "docs_store" not in ss:
     ss["docs_store"] = {}
@@ -22,11 +25,11 @@ if "current_docs" not in ss:
 if "show_clear_button" not in ss:
     ss["show_clear_button"] = False
 
-if "language" not in ss:
-    ss["language"] = 'English'
+if LANG not in ss:
+    ss[LANG] = 'English'
 
 st.set_page_config(
-     page_title = UC.TAB_TITLE(ss["language"]),
+     page_title = UC.TAB_TITLE(ss[LANG]),
      layout = "wide",
      initial_sidebar_state = "expanded"
 )
@@ -34,8 +37,8 @@ st.set_page_config(
 # unsafe_allow_html=True を使用して、HTMLとCSSの直接挿入を許可
 st.markdown(UC.CSS, unsafe_allow_html=True)
 
-st.title(UC.TITLE(ss["language"]))
-st.write(UC.SUBTITLE(ss["language"]))
+st.title(UC.TITLE(ss[LANG]))
+st.write(UC.SUBTITLE(ss[LANG]))
 
 # Display chat messages from history on app rerun
 if message_list != []:
@@ -43,13 +46,13 @@ if message_list != []:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
             if message["role"] == "AI":
-                if st.button(UC.DOC_HISTORY(ss["language"]), key = message["key"]):
+                if st.button(UC.DOC_HISTORY(ss[LANG]), key = message["key"]):
                     ss["current_docs"] = ss["docs_store"][message["key"]]
 
     if ss["show_clear_button"] == True:
-        clear_button = st.button(UC.CLEAR_BUTTON(ss["language"]))
+        clear_button = st.button(UC.CLEAR_BUTTON(ss[LANG]))
         if clear_button == True:
-            ss["conversation"] = []
+            ss[CONV] = []
             ss["current_docs"] = ""
             clear_button = False
             st.rerun()
@@ -58,7 +61,7 @@ def hide_clear_button():
     ss["show_clear_button"] = False
 
 # Accept user input
-if input := st.chat_input(UC.INPUT_HOLDER(ss["language"]), on_submit = hide_clear_button):
+if input := st.chat_input(UC.INPUT_HOLDER(ss[LANG]), on_submit = hide_clear_button):
     # インプとの文字数のモデレート
     if len(input) > MAX_USER_INPUT:
         input = input[:MAX_USER_INPUT]
@@ -66,7 +69,7 @@ if input := st.chat_input(UC.INPUT_HOLDER(ss["language"]), on_submit = hide_clea
     with st.chat_message("user"):
         st.markdown(input)
     #ユーザーからのインプットをsession_stateに記録
-    ss["conversation"].append({"role" : "user", "content" : input})
+    ss[CONV].append({"role" : "user", "content" : input})
 
     #AIからの返答をストリームにて取得、表示する
     with st.chat_message("AI"):
@@ -75,18 +78,18 @@ if input := st.chat_input(UC.INPUT_HOLDER(ss["language"]), on_submit = hide_clea
 
         sources, language = logic.handle_retrieval(input)
         ss["current_docs"] = sources
-        ss["language"] = language
-        print(ss['language'])
+        ss[LANG] = language
+        print(ss[LANG])
 
         with st.sidebar:
-            st.subheader(UC.SIDEBAR_SUBTITLE(ss["language"]))
+            st.subheader(UC.SIDEBAR_SUBTITLE(ss[LANG]))
 
             if "current_docs" in ss:
                 st.markdown(ss["current_docs"])
 
         msg_holder.markdown("Reading source documents...")
         full_response = ""
-        stream = logic.get_stream(input, sources, ss['language'])
+        stream = logic.get_stream(input, sources, ss[LANG])
         for chunk in stream:
             try:
                 # Geminiの場合
@@ -118,14 +121,14 @@ if input := st.chat_input(UC.INPUT_HOLDER(ss["language"]), on_submit = hide_clea
 
     #AIからの返答をsession_stateに記録
     generated_key = uuid.uuid4()
-    ss["conversation"].append({"role" : "AI", "content" : full_response, "key" : generated_key})
+    ss[CONV].append({"role" : "AI", "content" : full_response, "key" : generated_key})
     ss["docs_store"][generated_key] = sources
     ss["show_clear_button"] = True
     st.rerun()
 
 else:
     with st.sidebar:
-        st.subheader(UC.SIDEBAR_SUBTITLE(ss["language"]))
+        st.subheader(UC.SIDEBAR_SUBTITLE(ss[LANG]))
         if "current_docs" in ss:
             st.markdown(ss["current_docs"])
 

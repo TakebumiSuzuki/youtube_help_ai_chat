@@ -1,5 +1,6 @@
 import prompt_constants as PC
 import config_constants as CC
+import ui_constants as UC
 import os
 import json
 from dotenv import load_dotenv
@@ -31,6 +32,7 @@ if not OPENAI_API_KEY:
 # if not GEMINI_API_KEY:
 #     logger.error("GEMINI_API_KEYが.envファイル内に見つかりません")
 #     raise
+
 
 # FAISSインデックスの読み込み
 loaded_faiss = {}
@@ -67,17 +69,17 @@ logger.info("すべてのJSONデータの読み込みが正常に終了しまし
 
 
 def get_databases(language):
-    if language == 'Japanese':
+    if language == UC.JAPANESE:
         return loaded_faiss['ja'], loaded_json['ja']
-    elif language == 'Spanish':
+    elif language == UC.SPANISH:
         return loaded_faiss['es'], loaded_json['es']
-    elif language == 'Indonesian':
+    elif language == UC.INDONESIAN:
         return loaded_faiss['id'], loaded_json['id']
-    elif language == 'Korean':
+    elif language == UC.KOREAN:
         return loaded_faiss['ko'], loaded_json['ko']
-    elif language == 'Vietnamese':
+    elif language == UC.VIETNAMESE:
         return loaded_faiss['vi'], loaded_json['vi']
-    elif language == 'Thai':
+    elif language == UC.THAI:
         return loaded_faiss['th'], loaded_json['th']
     else:
         return loaded_faiss['en'], loaded_json['en']
@@ -138,19 +140,19 @@ def split_last_brackets(input_string):
 
 def extract_language(text: str) -> str:
     if 'japanese' in text.lower():
-        return 'Japanese'
+        return UC.JAPANESE
     elif 'spanish' in text.lower():
-        return 'Spanish'
+        return UC.SPANISH
     elif 'indonesian' in text.lower():
-        return 'Indonesian'
+        return UC.INDONESIAN
     elif 'korean' in text.lower():
-        return 'Korean'
+        return UC.KOREAN
     elif 'vietnamese' in text.lower():
-        return 'Vietnamese'
+        return UC.VIETNAMESE
     elif 'thai' in text.lower():
-        return 'Thai'
+        return UC.THAI
     else:
-        return 'English'
+        return UC.ENGLISH
 
 
 
