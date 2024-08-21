@@ -26,7 +26,7 @@ if "show_clear_button" not in ss:
     ss["show_clear_button"] = False
 
 if LANG not in ss:
-    ss[LANG] = 'English'
+    ss[LANG] = UC.ENGLISH
 
 st.set_page_config(
      page_title = UC.TAB_TITLE(ss[LANG]),

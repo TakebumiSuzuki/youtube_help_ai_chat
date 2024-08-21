@@ -1,3 +1,5 @@
+import ui_constants as UC
+
 # OpenAIを使用した場合の設定項目
 OPENAI_API_KEY = 'OPENAI_API_KEY'
 OPENAI_HYDE_MODEL = 'gpt-4o-2024-08-06'
@@ -16,23 +18,23 @@ K = 4
 
 # データファイルのパス設定
 FAISS_FILES = {
-    'ja': "./knowledge_data/JA_08_02_2024_V3.faiss",
-    'es': "./knowledge_data/ES_08_07_2024.faiss",
-    'id': "./knowledge_data/ID_08_12_2024.faiss",
-    'ko': "./knowledge_data/KO_08_12_2024.faiss",
-    'vi': "./knowledge_data/VI_08_14_2024.faiss",
-    'th': "./knowledge_data/TH_08_19_2024.faiss",
-    'en': "./knowledge_data/EN_08_07_2024.faiss"
+    UC.JAPANESE: "./knowledge_data/JA_08_02_2024_V3.faiss",
+    UC.SPANISH: "./knowledge_data/ES_08_07_2024.faiss",
+    UC.INDONESIAN: "./knowledge_data/ID_08_12_2024.faiss",
+    UC.KOREAN: "./knowledge_data/KO_08_12_2024.faiss",
+    UC.VIETNAMESE: "./knowledge_data/VI_08_14_2024.faiss",
+    UC.THAI: "./knowledge_data/TH_08_19_2024.faiss",
+    UC.ENGLISH: "./knowledge_data/EN_08_07_2024.faiss"
 }
 
 JSON_FILES = {
-    'ja': "./knowledge_data/JA_08_02_2024_V3.json",
-    'es': "./knowledge_data/ES_08_07_2024.json",
-    'id': "./knowledge_data/ID_08_12_2024.json",
-    'ko': "./knowledge_data/KO_08_12_2024.json",
-    'vi': "./knowledge_data/VI_08_14_2024.json",
-    'th': "./knowledge_data/TH_08_19_2024.json",
-    'en': "./knowledge_data/EN_08_07_2024.json"
+    UC.JAPANESE: "./knowledge_data/JA_08_02_2024_V3.json",
+    UC.SPANISH: "./knowledge_data/ES_08_07_2024.json",
+    UC.INDONESIAN: "./knowledge_data/ID_08_12_2024.json",
+    UC.KOREAN: "./knowledge_data/KO_08_12_2024.json",
+    UC.VIETNAMESE: "./knowledge_data/VI_08_14_2024.json",
+    UC.THAI: "./knowledge_data/TH_08_19_2024.json",
+    UC.ENGLISH: "./knowledge_data/EN_08_07_2024.json"
 }
 
 # GEMINIのセーフティセッティングで使う

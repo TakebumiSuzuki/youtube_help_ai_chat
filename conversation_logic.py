@@ -69,6 +69,8 @@ logger.info("すべてのJSONデータの読み込みが正常に終了しまし
 
 
 def get_databases(language):
+    return loaded_faiss[language], loaded_json[language]
+
     if language == UC.JAPANESE:
         return loaded_faiss['ja'], loaded_json['ja']
     elif language == UC.SPANISH:
