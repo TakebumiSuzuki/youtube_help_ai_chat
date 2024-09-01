@@ -2,6 +2,10 @@ CSS = """
     <style>
         header {visibility: hidden;}
         div[class^='block-container'] { padding-top: 2rem; }
+
+        section[data-testid="stSidebar"] {
+            width: 1000px !important; # Set the width to your desired value
+        }
     </style>
 """
 

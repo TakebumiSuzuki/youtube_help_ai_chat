@@ -71,23 +71,6 @@ logger.info("すべてのJSONデータの読み込みが正常に終了しまし
 def get_databases(language):
     return loaded_faiss[language], loaded_json[language]
 
-    if language == UC.JAPANESE:
-        return loaded_faiss['ja'], loaded_json['ja']
-    elif language == UC.SPANISH:
-        return loaded_faiss['es'], loaded_json['es']
-    elif language == UC.INDONESIAN:
-        return loaded_faiss['id'], loaded_json['id']
-    elif language == UC.KOREAN:
-        return loaded_faiss['ko'], loaded_json['ko']
-    elif language == UC.VIETNAMESE:
-        return loaded_faiss['vi'], loaded_json['vi']
-    elif language == UC.THAI:
-        return loaded_faiss['th'], loaded_json['th']
-    else:
-        return loaded_faiss['en'], loaded_json['en']
-
-
-
 
 def get_hyde_query(orig_input: str) -> str:
     try:
